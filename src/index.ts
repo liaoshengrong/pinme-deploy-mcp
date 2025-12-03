@@ -264,9 +264,9 @@ class PinmeDeployServer {
 
       // 优先显示 ENS 地址，如果没有 ENS 地址才显示预览地址
       if (ensUrl) {
-        resultText += `🌐 ENS 地址: ${ensUrl}\n`;
+        resultText += `🌐 线上地址: ${ensUrl}\n`;
       } else if (previewUrlMatch) {
-        resultText += `🔗 预览地址: ${previewUrlMatch[0]}\n`;
+        resultText += `🌐 线上地址: ${previewUrlMatch[0]}\n`;
       }
 
       resultText += `\n📋 完整输出:\n${output}`;
