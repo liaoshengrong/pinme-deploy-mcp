@@ -198,13 +198,11 @@ class PinmeDeployServer {
                 resultText += `🔍 自动检测到构建目录\n`;
             }
             resultText += `📁 ${isFile ? "文件" : "目录"}: ${deployPath}\n`;
-            if (previewUrlMatch) {
-                resultText += `🔗 预览地址: ${previewUrlMatch[0]}\n`;
-            }
             if (cidMatch) {
                 resultText += `🆔 IPFS CID: ${cidMatch[0]}\n`;
             }
             // 从 pinme list 获取最新上传的 ENS URL（第一个项目）
+            let ensUrl = null;
             try {
                 const listResult = await execAsync("pinme list");
                 const listOutput = listResult.stdout;
@@ -212,18 +210,25 @@ class PinmeDeployServer {
                 // 格式：ENS URL: https://8206fd15.pinit.eth.limo
                 const ensUrlMatch = listOutput.match(/ENS URL:\s*(https:\/\/[a-f0-9]+\.pinit\.eth\.limo)/);
                 if (ensUrlMatch) {
-                    resultText += `🌐 ENS 地址: ${ensUrlMatch[1]}\n`;
+                    ensUrl = ensUrlMatch[1];
                 }
                 else {
                     // 备用匹配方式
                     const ensUrlMatch2 = listOutput.match(/https:\/\/[a-f0-9]+\.pinit\.eth\.limo/);
                     if (ensUrlMatch2) {
-                        resultText += `🌐 ENS 地址: ${ensUrlMatch2[0]}\n`;
+                        ensUrl = ensUrlMatch2[0];
                     }
                 }
             }
             catch (e) {
                 // 如果获取列表失败，忽略
+            }
+            // 优先显示 ENS 地址，如果没有 ENS 地址才显示预览地址
+            if (ensUrl) {
+                resultText += `🌐 ENS 地址: ${ensUrl}\n`;
+            }
+            else if (previewUrlMatch) {
+                resultText += `🔗 预览地址: ${previewUrlMatch[0]}\n`;
             }
             resultText += `\n📋 完整输出:\n${output}`;
             return {
