@@ -230,7 +230,6 @@ class PinmeDeployServer {
             else if (previewUrlMatch) {
                 resultText += `🌐 线上地址: ${previewUrlMatch[0]}\n`;
             }
-            resultText += `\n📋 完整输出:\n${output}`;
             return {
                 content: [
                     {
