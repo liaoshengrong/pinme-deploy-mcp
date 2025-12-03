@@ -9,9 +9,32 @@
 ```bash
 # 清理 npx 缓存
 rm -rf ~/.npm/_npx
+# 清理 npm 缓存
+npm cache clean --force
 ```
 
 然后重新在 Cursor 中添加 MCP 服务器。
+
+## 问题：git+ssh 协议错误
+
+如果遇到 `git+ssh://` 相关错误，说明 npx 使用了 SSH 协议但未配置 SSH 密钥。
+
+### 解决方案：使用 HTTPS 协议
+
+在 Cursor 配置中使用完整的 HTTPS URL：
+
+```json
+{
+  "mcpServers": {
+    "pinme-deploy": {
+      "command": "npx",
+      "args": ["-y", "git+https://github.com/liaoshengrong/pinme-deploy-mcp.git"]
+    }
+  }
+}
+```
+
+注意：使用 `git+https://` 而不是 `github:` 简写，这样可以避免 SSH 认证问题。
 
 ### 解决方案 2：使用全局安装（推荐）
 

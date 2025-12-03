@@ -11,7 +11,7 @@
   "mcpServers": {
     "pinme-deploy": {
       "command": "npx",
-      "args": ["-y", "github:liaoshengrong/pinme-deploy-mcp"]
+      "args": ["-y", "git+https://github.com/liaoshengrong/pinme-deploy-mcp.git"]
     }
   }
 }
