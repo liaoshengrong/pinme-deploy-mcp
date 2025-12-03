@@ -2,6 +2,8 @@
 
 一个 Model Context Protocol (MCP) 服务器，集成 Pinme 功能，帮助用户一键将静态网站部署到 IPFS 网络。
 
+**GitHub**: https://github.com/liaoshengrong/pinme-deploy-mcp
+
 ## 功能特性
 
 - 🚀 **一键上传**: 快速将静态网站、HTML 文件或前端项目上传到 Pinme (IPFS)
@@ -12,10 +14,25 @@
 
 ## 安装
 
-### 方式一：npm 全局安装（推荐）
+### 方式一：从 GitHub 使用 npx（推荐，最简单）
+
+无需安装，直接在 Cursor 配置文件中使用：
+
+```json
+{
+  "mcpServers": {
+    "pinme-deploy": {
+      "command": "npx",
+      "args": ["-y", "github:liaoshengrong/pinme-deploy-mcp"]
+    }
+  }
+}
+```
+
+### 方式二：从 GitHub 全局安装
 
 ```bash
-npm install -g pinme-deploy-mcp
+npm install -g github:liaoshengrong/pinme-deploy-mcp
 ```
 
 然后在 Cursor 配置文件中添加：
@@ -30,26 +47,24 @@ npm install -g pinme-deploy-mcp
 }
 ```
 
-### 方式二：使用 npx（无需全局安装）
-
-在 Cursor 配置文件中直接使用：
-
-```json
-{
-  "mcpServers": {
-    "pinme-deploy": {
-      "command": "npx",
-      "args": ["-y", "pinme-deploy-mcp"]
-    }
-  }
-}
-```
-
-### 方式三：本地开发安装
+### 方式三：使用安装脚本
 
 ```bash
-git clone <repository-url>
-cd pinme-deploy
+curl -fsSL https://raw.githubusercontent.com/liaoshengrong/pinme-deploy-mcp/main/install.sh | bash
+```
+
+或下载后执行：
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+### 方式四：本地开发安装
+
+```bash
+git clone https://github.com/liaoshengrong/pinme-deploy-mcp.git
+cd pinme-deploy-mcp
 npm install
 npm run build
 ```
@@ -61,7 +76,7 @@ npm run build
   "mcpServers": {
     "pinme-deploy": {
       "command": "node",
-      "args": ["/absolute/path/to/pinme-deploy/dist/index.js"]
+      "args": ["/absolute/path/to/pinme-deploy-mcp/dist/index.js"]
     }
   }
 }
