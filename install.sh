@@ -30,7 +30,7 @@ TEMP_DIR=$(mktemp -d)
 cd "$TEMP_DIR"
 
 echo "📥 从 GitHub 下载..."
-git clone https://github.com/hua-cloud/pinme-deploy-mcp.git
+git clone https://github.com/liaoshengrong/pinme-deploy-mcp.git
 cd pinme-deploy-mcp
 
 echo "📦 安装依赖并构建..."
@@ -61,7 +61,7 @@ echo '{'
 echo '  "mcpServers": {'
 echo '    "pinme-deploy": {'
 echo '      "command": "npx",'
-echo '      "args": ["-y", "github:hua-cloud/pinme-deploy-mcp"]'
+echo '      "args": ["-y", "github:liaoshengrong/pinme-deploy-mcp"]'
 echo '    }'
 echo '  }'
 echo '}'
