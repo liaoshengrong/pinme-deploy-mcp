@@ -11,31 +11,30 @@ const __dirname = dirname(__filename);
 const projectRoot = resolve(__dirname, '..');
 const distFile = resolve(projectRoot, 'dist', 'index.js');
 
-// 如果 dist/index.js 不存在，先构建
+// 如果 dist/index.js 不存在，尝试构建（通常 dist 已经包含在仓库中）
 if (!existsSync(distFile)) {
-  try {
-    // 先检查是否有 node_modules，如果没有先安装依赖
-    if (!existsSync(join(projectRoot, 'node_modules'))) {
-      console.error('安装依赖中...');
-      execSync('npm install', { 
+  // 检查是否有 TypeScript 编译器可用
+  const hasTsc = existsSync(join(projectRoot, 'node_modules', '.bin', 'tsc')) || 
+                 existsSync(join(projectRoot, 'node_modules', 'typescript'));
+  
+  if (hasTsc) {
+    try {
+      console.error('构建中...');
+      execSync('npm run build', { 
         cwd: projectRoot,
         stdio: 'inherit',
         env: { ...process.env, NODE_ENV: 'production' }
       });
+    } catch (error) {
+      console.error('构建失败:', error.message);
+      if (!existsSync(distFile)) {
+        console.error('无法找到构建文件，退出');
+        process.exit(1);
+      }
     }
-    console.error('构建中...');
-    execSync('npm run build', { 
-      cwd: projectRoot,
-      stdio: 'inherit',
-      env: { ...process.env, NODE_ENV: 'production' }
-    });
-  } catch (error) {
-    console.error('构建失败:', error.message);
-    // 即使构建失败，也尝试运行（可能已经构建好了）
-    if (!existsSync(distFile)) {
-      console.error('无法找到构建文件，退出');
-      process.exit(1);
-    }
+  } else {
+    console.error('错误: 找不到 dist/index.js，且无法构建（缺少 TypeScript 编译器）');
+    process.exit(1);
   }
 }
 
