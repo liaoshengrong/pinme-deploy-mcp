@@ -21,7 +21,8 @@
     "dev": "tsx src/index.ts",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "mcp",
