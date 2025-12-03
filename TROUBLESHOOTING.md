@@ -36,6 +36,41 @@ npm cache clean --force
 
 注意：使用 `git+https://` 而不是 `github:` 简写，这样可以避免 SSH 认证问题。
 
+## 问题：No server info found
+
+如果遇到 `No server info found` 错误，说明 MCP 服务器启动但未正确响应。
+
+### 解决方案：
+
+1. **检查构建是否成功**：
+   - 包装脚本会自动构建，但可能需要一些时间
+   - 查看 Cursor 的 MCP 日志，看是否有构建错误
+
+2. **手动测试**：
+   ```bash
+   # 清理缓存
+   rm -rf ~/.npm/_npx
+   
+   # 手动测试
+   npx -y git+https://github.com/liaoshengrong/pinme-deploy-mcp.git
+   ```
+
+3. **使用全局安装（更稳定）**：
+   ```bash
+   npm install -g git+https://github.com/liaoshengrong/pinme-deploy-mcp.git
+   ```
+   
+   然后在 Cursor 配置中使用：
+   ```json
+   {
+     "mcpServers": {
+       "pinme-deploy": {
+         "command": "pinme-deploy-mcp"
+       }
+     }
+   }
+   ```
+
 ### 解决方案 2：使用全局安装（推荐）
 
 如果 npx 方式一直有问题，建议使用全局安装：
