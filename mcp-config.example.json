@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "pinme-deploy": {
+      "command": "node",
+      "args": ["/absolute/path/to/pinme-deploy/dist/index.js"]
+    }
+  }
+}
+
