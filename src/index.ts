@@ -242,21 +242,27 @@ class PinmeDeployServer {
 
       if (cidMatch) {
         resultText += `🆔 IPFS CID: ${cidMatch[0]}\n`;
-        // 从 pinme list 获取 ENS URL
-        try {
-          const listResult = await execAsync("pinme list");
-          const listOutput = listResult.stdout;
-          // 查找匹配的 CID 对应的 ENS URL
-          const cidIndex = listOutput.indexOf(cidMatch[0]);
-          if (cidIndex !== -1) {
-            const ensUrlMatch = listOutput.substring(cidIndex).match(/https:\/\/[a-f0-9]+\.pinit\.eth\.limo/);
-            if (ensUrlMatch) {
-              resultText += `🌐 ENS 地址: ${ensUrlMatch[0]}\n`;
-            }
+      }
+
+      // 从 pinme list 获取最新上传的 ENS URL（第一个项目）
+      try {
+        const listResult = await execAsync("pinme list");
+        const listOutput = listResult.stdout;
+        
+        // 查找第一个 ENS URL（最新上传的就是第一个）
+        // 格式：ENS URL: https://8206fd15.pinit.eth.limo
+        const ensUrlMatch = listOutput.match(/ENS URL:\s*(https:\/\/[a-f0-9]+\.pinit\.eth\.limo)/);
+        if (ensUrlMatch) {
+          resultText += `🌐 ENS 地址: ${ensUrlMatch[1]}\n`;
+        } else {
+          // 备用匹配方式
+          const ensUrlMatch2 = listOutput.match(/https:\/\/[a-f0-9]+\.pinit\.eth\.limo/);
+          if (ensUrlMatch2) {
+            resultText += `🌐 ENS 地址: ${ensUrlMatch2[0]}\n`;
           }
-        } catch (e) {
-          // 如果获取列表失败，忽略
         }
+      } catch (e) {
+        // 如果获取列表失败，忽略
       }
 
       resultText += `\n📋 完整输出:\n${output}`;
