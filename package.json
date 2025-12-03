@@ -5,10 +5,13 @@
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "pinme-deploy-mcp": "./dist/index.js"
+    "pinme-deploy-mcp": "./bin/pinme-deploy-mcp.js"
   },
   "files": [
+    "bin",
     "dist",
+    "src",
+    "tsconfig.json",
     "README.md",
     "LICENSE"
   ],
