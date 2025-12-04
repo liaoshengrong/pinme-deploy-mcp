@@ -180,8 +180,8 @@ class PinmeDeployServer {
                 throw new Error(`目录为空: ${deployPath}`);
             }
         }
-        // 构建上传命令：pinme upload <path>
-        const command = `pinme upload "${deployPath}"`;
+        // 构建上传命令：使用 npx 运行 pinme，无需全局安装
+        const command = `npx -y pinme upload "${deployPath}"`;
         try {
             // 执行上传命令
             const { stdout, stderr } = await execAsync(command, {
@@ -241,17 +241,17 @@ class PinmeDeployServer {
         }
         catch (error) {
             // 如果命令执行失败，提供替代方案
-            if (error.code === "ENOENT" || error.message.includes("pinme")) {
+            if (error.code === "ENOENT" || error.message.includes("pinme") || error.message.includes("npx")) {
                 return {
                     content: [
                         {
                             type: "text",
-                            text: `⚠️ 未找到 Pinme CLI 工具。\n\n` +
-                                `请先安装 Pinme CLI:\n` +
-                                `  npm install -g pinme\n\n` +
-                                `安装完成后，您可以:\n` +
-                                `1. 使用此工具上传文件或目录\n` +
-                                `2. 或直接使用命令行: pinme upload <路径>\n\n` +
+                            text: `⚠️ 执行失败。\n\n` +
+                                `请确保已安装 Node.js 和 npm。\n` +
+                                `工具会自动使用 npx 运行 pinme，无需全局安装。\n\n` +
+                                `如果问题持续，可以尝试:\n` +
+                                `1. 手动运行: npx -y pinme upload "${deployPath}"\n` +
+                                `2. 或全局安装: npm install -g pinme\n\n` +
                                 `上传路径: ${deployPath}\n`,
                         },
                     ],
@@ -317,8 +317,8 @@ class PinmeDeployServer {
     }
     async handleListDeployments() {
         try {
-            // 使用 pinme list 命令获取部署列表
-            const { stdout, stderr } = await execAsync("pinme list");
+            // 使用 npx 运行 pinme list 命令获取部署列表
+            const { stdout, stderr } = await execAsync("npx -y pinme list");
             const output = stdout || stderr;
             // 解析输出，提取部署信息
             const deployments = [];
@@ -402,15 +402,17 @@ class PinmeDeployServer {
             };
         }
         catch (error) {
-            if (error.code === "ENOENT" || error.message.includes("pinme")) {
+            if (error.code === "ENOENT" || error.message.includes("pinme") || error.message.includes("npx")) {
                 return {
                     content: [
                         {
                             type: "text",
-                            text: `⚠️ 未找到 Pinme CLI 工具。\n\n` +
-                                `请先安装 Pinme CLI:\n` +
-                                `  npm install -g pinme\n\n` +
-                                `然后使用命令: pinme list\n`,
+                            text: `⚠️ 执行失败。\n\n` +
+                                `请确保已安装 Node.js 和 npm。\n` +
+                                `工具会自动使用 npx 运行 pinme，无需全局安装。\n\n` +
+                                `如果问题持续，可以尝试:\n` +
+                                `1. 手动运行: npx -y pinme list\n` +
+                                `2. 或全局安装: npm install -g pinme\n`,
                         },
                     ],
                 };

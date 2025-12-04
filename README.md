@@ -96,15 +96,15 @@ npm run build
 
 - `PINME_API_KEY`: Pinme API 密钥（如果使用 API 部署）
 
-### Pinme CLI 安装
+### Pinme CLI
 
-**必须**先安装 Pinme CLI：
+**无需全局安装**！工具会自动使用 `npx` 运行 Pinme CLI，无需提前安装。
+
+如果需要手动安装（可选）：
 
 ```bash
 npm install -g pinme
 ```
-
-安装完成后，您就可以使用此 MCP 服务器来上传文件了。
 
 ## 使用方法
 
