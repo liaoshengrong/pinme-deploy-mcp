@@ -243,7 +243,7 @@ class PinmeDeployServer {
       // 从 pinme list 获取最新上传的 ENS URL（第一个项目）
       let ensUrl: string | null = null;
       try {
-        const listResult = await execAsync("pinme list");
+        const listResult = await execAsync("npx -y pinme list");
         const listOutput = listResult.stdout;
         
         // 查找第一个 ENS URL（最新上传的就是第一个）
